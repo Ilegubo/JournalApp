@@ -18,11 +18,12 @@ public class Journal
             string[] entries = content.Split(" | ");
             foreach (string entry in entries)
             {
-                string[] parts = entry.Split(":: ");
+                string[] parts = entry.Split("::");
                 Entry newEntry = new Entry();
                 newEntry._date = parts[0];
                 newEntry._promptText = parts[1];
                 newEntry._entryText = parts[2];
+                
             }
             
         }
@@ -34,6 +35,10 @@ public class Journal
 
     public void Save(string fileName)
     {
+        if (!(fileName.Contains(".txt")))
+        {
+            fileName += ".txt";
+        }
         try
         {
             foreach (Entry pEntry in _entries)
@@ -57,6 +62,7 @@ public class Journal
             Console.Write("Response: ");
             newEntry._entryText = Console.ReadLine();
             newEntry._entryText += " | ";
+            _entries.Add(newEntry);
         }
         _entries.Add(newEntry);
     }

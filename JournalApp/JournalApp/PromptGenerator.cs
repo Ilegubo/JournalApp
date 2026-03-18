@@ -26,7 +26,7 @@ public class PromptGenerator
             QuestionBank();
         }
         Random random = new Random();
-        int randomIndex = random.Next(1, _prompts.Count);
+        int randomIndex = random.Next(0, _prompts.Count);
         return _prompts[randomIndex];
     }
 }
