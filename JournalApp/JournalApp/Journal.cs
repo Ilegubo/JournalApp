@@ -64,7 +64,6 @@ public class Journal
             newEntry._entryText += " | ";
             _entries.Add(newEntry);
         }
-        _entries.Add(newEntry);
     }
     public void Display()
     {
