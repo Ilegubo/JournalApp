@@ -18,7 +18,7 @@ public class Journal
             string[] entries = content.Split(" | ");
             foreach (string entry in entries)
             {
-                string[] parts = entry.Split("::");
+                string[] parts = entry.Split(":: ");
                 Entry newEntry = new Entry();
                 newEntry._date = parts[0];
                 newEntry._promptText = parts[1];
@@ -38,7 +38,7 @@ public class Journal
         {
             foreach (Entry pEntry in _entries)
             {
-                string content = $"{pEntry._date}:: {pEntry._promptText}::\n{pEntry._entryText}";
+                string content = $"{pEntry._date}:: {pEntry._promptText}:: \n{pEntry._entryText}";
                 File.AppendAllText(fileName, content);
             }
         }
