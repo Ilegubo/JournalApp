@@ -4,15 +4,31 @@ using System.IO;
 public class Journal
 {
     public List<Entry> _entries = new List<Entry>();
+    public List<Entry> loadEntries = new List<Entry>();
     public void Load(string fileName)
     {
         try
         {
-            string entries = File.ReadAllText(fileName);
+            if (!(fileName.Contains(".txt")))
+            {
+                fileName += ".txt";
+            }
+
+            string content = File.ReadAllText(fileName);
+            string[] entries = content.Split(" | ");
+            foreach (string entry in entries)
+            {
+                string[] parts = entry.Split("::");
+                Entry newEntry = new Entry();
+                newEntry._date = parts[0];
+                newEntry._promptText = parts[1];
+                newEntry._entryText = parts[2];
+            }
+            
         }
         catch (IOException)
         {
-            Console.WriteLine("Error 404: File Not Found.");
+            Console.WriteLine("Error: File Not Found.");
         }
     }
 
@@ -22,8 +38,8 @@ public class Journal
         {
             foreach (Entry pEntry in _entries)
             {
-                string content = $"{pEntry._date} {pEntry._promptText}\n{pEntry._entryText}";
-                File.WriteAllText(fileName, content);
+                string content = $"{pEntry._date}:: {pEntry._promptText}::\n{pEntry._entryText}";
+                File.AppendAllText(fileName, content);
             }
         }
         catch (IOException)
@@ -50,7 +66,7 @@ public class Journal
         {
             foreach (Entry newEntry in _entries)
             {
-                Console.Write($"{newEntry._date} {newEntry._promptText}");
+                Console.Write($"{newEntry._date} {newEntry._promptText}\n");
                 Console.WriteLine(newEntry._entryText);
             }
         }

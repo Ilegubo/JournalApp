@@ -31,7 +31,6 @@ class Program
             {
                 Entry entry = new Entry();
                 _journal.AddEntry(entry);
-                entry._entryText = Console.ReadLine();
             }
 
             else if (userChoice == "4")
