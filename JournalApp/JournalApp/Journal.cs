@@ -14,18 +14,22 @@ public class Journal
                 fileName += ".txt";
             }
 
-            string content = File.ReadAllText(fileName);
-            string[] entries = content.Split(" | ");
-            foreach (string entry in entries)
+            string[] lines = File.ReadAllLines(fileName);
+            _entries.Clear();
+
+            foreach (string line in lines)
             {
-                string[] parts = entry.Split("::");
-                Entry newEntry = new Entry();
-                newEntry._date = parts[0];
-                newEntry._promptText = parts[1];
-                newEntry._entryText = parts[2];
+                string[] parts = line.Split('|');
                 
+                if (parts.Length == 3)
+                {
+                    Entry newEntry = new Entry();
+                    newEntry._date = parts[0];
+                    newEntry._promptText = parts[1];
+                    newEntry._entryText = parts[2];
+                    _entries.Add(newEntry);
+                }
             }
-            
         }
         catch (IOException)
         {
@@ -41,15 +45,18 @@ public class Journal
         }
         try
         {
+            List<string> lines = new List<string>();
             foreach (Entry pEntry in _entries)
             {
-                string content = $"{pEntry._date}:: {pEntry._promptText}:: \n{pEntry._entryText}";
-                File.AppendAllText(fileName, content);
+
+                string line = $"{pEntry._date}|{pEntry._promptText}|{pEntry._entryText}";
+                lines.Add(line);
             }
+            File.WriteAllLines(fileName, lines);
         }
         catch (IOException)
         {
-            Console.WriteLine("Error occured!");
+            Console.WriteLine("Error occurred!");
         }
     }
 
@@ -62,8 +69,8 @@ public class Journal
             Console.Write("Response: ");
             newEntry._entryText = Console.ReadLine();
             newEntry._entryText += " | ";
-            _entries.Add(newEntry);
         }
+        _entries.Add(newEntry);
     }
     public void Display()
     {
