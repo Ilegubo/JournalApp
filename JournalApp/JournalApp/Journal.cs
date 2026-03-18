@@ -68,7 +68,6 @@ public class Journal
             Console.WriteLine(newEntry._promptText);
             Console.Write("Response: ");
             newEntry._entryText = Console.ReadLine();
-            newEntry._entryText += "|";
         }
         _entries.Add(newEntry);
     }
